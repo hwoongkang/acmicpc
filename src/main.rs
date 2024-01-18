@@ -2,6 +2,8 @@ mod problems;
 
 use problems::p18110::_solve;
 
+// Copy-Paset below.
+
 use std::io::{self, Read, Write};
 
 fn main() {
