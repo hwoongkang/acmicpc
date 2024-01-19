@@ -2,7 +2,7 @@ mod problems;
 
 use problems::p18110::_solve;
 
-// Copy-Paset below.
+// Copy-Paste below.
 
 use std::io::{self, Read, Write};
 
