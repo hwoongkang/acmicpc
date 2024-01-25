@@ -39,17 +39,19 @@ pub fn _solve(input: String) -> String {
 
     let mut on_hull: Vec<bool> = (0..len).map(|_| false).collect();
 
-    let mut left_most = (1_000_000, Vec2D(40000, 40000));
+    let mut left_most = 0;
 
-    for (i, v) in points.iter().enumerate() {
-        if v < &left_most.1 {
-            left_most = (i, *v);
+    for (i, v) in points.iter().enumerate().skip(1) {
+        let prev = &points[left_most];
+
+        if v < prev {
+            left_most = i;
         }
     }
 
-    on_hull[left_most.0] = true;
+    on_hull[left_most] = true;
 
-    let mut curr = left_most.0;
+    let mut curr = left_most;
 
     loop {
         let mut next: Option<usize> = None;
@@ -68,11 +70,11 @@ pub fn _solve(input: String) -> String {
                 Some(j) => {
                     let prev = points[j];
                     let prev = prev - me;
-                    let compare = points[i] - me;
-                    if prev._cross(&compare) > 0 {
+                    let curr = points[i] - me;
+                    if prev._cross(&curr) > 0 {
                         next = Some(i);
                         candidates.clear();
-                    } else if prev._cross(&compare) == 0 {
+                    } else if prev._cross(&curr) == 0 {
                         next = Some(i);
                         candidates.push(i);
                         if candidates.len() == 1 {
@@ -93,7 +95,7 @@ pub fn _solve(input: String) -> String {
                 curr = next;
             }
         } else {
-            let mut farthest = (0, 0);
+            let mut farthest = (0i64, 0usize);
             for i in candidates.iter() {
                 let i = *i;
                 let dist = (points[i] - points[curr])._norm();
