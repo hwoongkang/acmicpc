@@ -22,7 +22,7 @@ mod p{num}_tests {{
     use super::*;
 
     #[test]
-    fn test_part_1() {{
+    fn test_case_1() {{
         let input = "".to_string();
         let output = "".to_string();
         assert_eq!(_solve(input), output);
