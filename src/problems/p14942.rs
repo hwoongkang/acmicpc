@@ -1,9 +1,3 @@
-use std::io::Error;
-
-fn foobar(input: String) -> Result<String, Error> {
-    let line = input.lines().next()?;
-    Ok(String::new())
-}
 pub fn _solve(input: String) -> String {
     let lines = &mut input.lines();
     let n: usize = lines.next().unwrap().parse().unwrap();
