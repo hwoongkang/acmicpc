@@ -4,15 +4,13 @@ pub fn _solve(input: String) -> String {
     let lines = &mut input.lines();
     let target: i32 = lines.next().unwrap().parse().unwrap();
     let a: Vec<i32> = lines
-        .skip(1)
-        .next()
+        .nth(1)
         .unwrap()
         .split_whitespace()
         .map(|w| w.parse().unwrap())
         .collect();
     let b: Vec<i32> = lines
-        .skip(1)
-        .next()
+        .nth(1)
         .unwrap()
         .split_whitespace()
         .map(|w| w.parse().unwrap())

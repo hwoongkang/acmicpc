@@ -71,15 +71,19 @@ pub fn _solve(input: String) -> String {
                     let prev = points[j];
                     let prev = prev - me;
                     let curr = points[i] - me;
-                    if prev._cross(&curr) > 0 {
-                        next = Some(i);
-                        candidates.clear();
-                    } else if prev._cross(&curr) == 0 {
-                        next = Some(i);
-                        candidates.push(i);
-                        if candidates.len() == 1 {
-                            candidates.push(j);
+                    match prev._cross(&curr).cmp(&0) {
+                        std::cmp::Ordering::Greater => {
+                            next = Some(i);
+                            candidates.clear();
                         }
+                        std::cmp::Ordering::Equal => {
+                            next = Some(i);
+                            candidates.push(i);
+                            if candidates.len() == 1 {
+                                candidates.push(j);
+                            }
+                        }
+                        _ => {}
                     }
                 }
             }
@@ -87,7 +91,7 @@ pub fn _solve(input: String) -> String {
 
         let next = next.unwrap();
 
-        if candidates.len() == 0 {
+        if candidates.is_empty() {
             if on_hull[next] {
                 break;
             } else {

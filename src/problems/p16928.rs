@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 pub fn _solve(input: String) -> String {
-    let mut portals: Vec<usize> = (0..=100).map(|n| n).collect();
+    let mut portals: Vec<usize> = (0..=100).collect();
     for line in input.lines().skip(1) {
         let mut words = line.split_whitespace();
         let from: usize = words.next().unwrap().parse().unwrap();

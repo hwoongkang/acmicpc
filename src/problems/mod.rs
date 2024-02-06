@@ -1,5 +1,4 @@
 pub mod p01004;
-pub mod p01006;
 pub mod p01014;
 pub mod p01708;
 pub mod p01935;

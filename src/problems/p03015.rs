@@ -33,14 +33,12 @@ fn _search(nums: &[usize], e: usize, target: usize) -> (usize, usize) {
     let l = if left_num > target {
         // 이 경우가 나왔다는 것은: 모든 사람이 나보다 큰 경우기 때문에 1명만 보인다고 생각해도 됨.
         1
+    } else if left_most == 0 {
+        // 맨 앞까지 다 보이고 있는 경우
+        e
     } else {
-        if left_most == 0 {
-            // 맨 앞까지 다 보이고 있는 경우
-            e
-        } else {
-            // 여기까지가 나와 키가 같거나 작은 사람이므로, 한 명이 더 보임
-            e - left_most + 1
-        }
+        // 여기까지가 나와 키가 같거나 작은 사람이므로, 한 명이 더 보임
+        e - left_most + 1
     };
 
     let num = nums[right_most];

@@ -73,12 +73,16 @@ fn _filter_convex(points: &[_Vec2D]) -> Vec<_Vec2D> {
                     let prev = points[j];
                     let prev = prev - me;
                     let curr = points[i] - me;
-                    if prev._cross(&curr) > 0 {
-                        next = Some(i);
-                    } else if prev._cross(&curr) == 0 {
-                        let prev_size = prev._size();
-                        let curr_size = curr._size();
-                        next = Some(if prev_size > curr_size { j } else { i });
+                    match prev._cross(&curr).cmp(&0) {
+                        std::cmp::Ordering::Greater => {
+                            next = Some(i);
+                        }
+                        std::cmp::Ordering::Equal => {
+                            let prev_size = prev._size();
+                            let curr_size = curr._size();
+                            next = Some(if prev_size > curr_size { j } else { i });
+                        }
+                        _ => {}
                     }
                 }
             }

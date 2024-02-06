@@ -7,11 +7,10 @@ pub fn _solve(input: String) -> String {
 
 fn _test_case(lines: &mut std::str::Lines) -> u8 {
     let mbtis: Vec<_MBTI> = lines
-        .skip(1)
-        .next()
+        .nth(1)
         .unwrap()
         .split_whitespace()
-        .map(|w| _parse_mbti(w))
+        .map(_parse_mbti)
         .collect();
     if mbtis.len() >= 33 {
         0

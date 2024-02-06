@@ -1,8 +1,7 @@
 pub fn _solve(input: String) -> String {
     let lines = &mut input.lines();
     let mut nums: Vec<usize> = lines
-        .skip(1)
-        .next()
+        .nth(1)
         .unwrap()
         .split_whitespace()
         .map(|w| w.parse().unwrap())

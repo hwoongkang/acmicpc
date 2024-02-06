@@ -20,13 +20,17 @@ impl _DisjointSet {
         }
         let a_rank = self.arr[a_root].1;
         let b_rank = self.arr[b_root].1;
-        if a_rank < b_rank {
-            self.arr[a_root].0 = b_root;
-        } else if a_rank > b_rank {
-            self.arr[b_root].0 = a_root;
-        } else {
-            self.arr[b_root].0 = a_root;
-            self.arr[a_root].1 += 1;
+        match a_rank.cmp(&b_rank) {
+            std::cmp::Ordering::Less => {
+                self.arr[a_root].0 = b_root;
+            }
+            std::cmp::Ordering::Greater => {
+                self.arr[b_root].0 = a_root;
+            }
+            std::cmp::Ordering::Equal => {
+                self.arr[b_root].0 = a_root;
+                self.arr[a_root].1 += 1;
+            }
         }
     }
     fn _query(&mut self, a: usize, b: usize) -> bool {

@@ -8,15 +8,3 @@ r`-_   ,'  ,/
       |"#,
     )
 }
-
-#[cfg(test)]
-mod p25083_tests {
-    use super::*;
-
-    #[test]
-    fn test_part_1() {
-        let input = "".to_string();
-        let output = "".to_string();
-        assert_eq!(_solve(input), output);
-    }
-}

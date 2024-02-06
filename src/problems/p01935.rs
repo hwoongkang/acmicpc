@@ -1,7 +1,7 @@
 pub fn _solve(input: String) -> String {
     let mut nums = [0f64; 26];
     let lines = &mut input.lines();
-    let eq = lines.skip(1).next().unwrap();
+    let eq = lines.nth(1).unwrap();
 
     lines
         .enumerate()

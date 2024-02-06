@@ -1,3 +1,4 @@
+#[allow(clippy::needless_collect)]
 pub fn _solve(input: String) -> String {
     let lines = &mut input.lines();
     let n: usize = lines.next().unwrap().parse().unwrap();

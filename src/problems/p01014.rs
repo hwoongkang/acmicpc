@@ -49,9 +49,7 @@ fn _testcase(lines: &mut std::str::Lines) -> String {
         let seat = seats[r];
 
         for curr in 0..max_c {
-            if !_cannot_cheat(curr, curr) {
-                dp[r + 1][curr] = 0;
-            } else if !_can_sit(curr, seat) {
+            if !_cannot_cheat(curr, curr) || !_can_sit(curr, seat) {
                 dp[r + 1][curr] = 0;
             } else {
                 let mut now = 0;
