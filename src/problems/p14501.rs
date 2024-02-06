@@ -1,3 +1,4 @@
+#[allow(clippy::needless_range_loop)]
 pub fn _solve(input: String) -> String {
     let lines = &mut input.lines();
     let num_days: usize = lines.next().unwrap().parse().unwrap();
