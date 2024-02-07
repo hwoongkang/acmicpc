@@ -3,6 +3,7 @@ pub mod p01014;
 pub mod p01708;
 pub mod p01935;
 pub mod p02028;
+pub mod p02096;
 pub mod p02143;
 pub mod p02525;
 pub mod p02630;
