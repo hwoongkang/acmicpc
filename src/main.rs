@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 mod problems;
 
 use problems::p18110::_solve;
