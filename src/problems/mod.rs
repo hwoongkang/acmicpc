@@ -1,5 +1,6 @@
 pub mod p01004;
 pub mod p01014;
+pub mod p01275;
 pub mod p01708;
 pub mod p01935;
 pub mod p02028;
@@ -18,6 +19,7 @@ pub mod p05597;
 pub mod p09527;
 pub mod p10158;
 pub mod p11382;
+pub mod p11505;
 pub mod p13306;
 pub mod p14501;
 pub mod p14940;
