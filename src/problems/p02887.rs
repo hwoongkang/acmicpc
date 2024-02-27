@@ -74,7 +74,6 @@ pub fn _solve(input: String) -> String {
 
     let update_min = |vertex: usize, min_to_conn: &mut [i32], on_mst: &mut [bool]| {
         for &(to, cost) in edges[vertex].iter() {
-            let to = to;
             if on_mst[to] {
                 continue;
             }
