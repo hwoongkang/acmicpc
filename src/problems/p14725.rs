@@ -15,7 +15,10 @@ impl<'a> Node<'a> {
         if !vec.is_empty() {
             let name = vec[0];
 
-            let child = self.children.entry(name).or_insert(Box::new(Node::new()));
+            let child = self
+                .children
+                .entry(name)
+                .or_insert_with(|| Box::new(Node::new()));
 
             child.update(&vec[1..]);
         }
