@@ -76,18 +76,15 @@ impl Lab {
         let (mr, mc) = self.size();
         for r in 0..mr {
             for c in 0..mc {
-                match &self.tiles[r][c] {
-                    Tile::Virus => {
-                        let mut stack = vec![(r, c)];
-                        self.tiles[r][c] = Tile::Virus;
-                        while let Some((r, c)) = stack.pop() {
-                            for (nr, nc) in self.next(&(r, c)) {
-                                self.tiles[nr][nc] = Tile::Virus;
-                                stack.push((nr, nc));
-                            }
+                if let Tile::Virus = self.tiles[r][c] {
+                    let mut stack = vec![(r, c)];
+                    self.tiles[r][c] = Tile::Virus;
+                    while let Some((r, c)) = stack.pop() {
+                        for (nr, nc) in self.next(&(r, c)) {
+                            self.tiles[nr][nc] = Tile::Virus;
+                            stack.push((nr, nc));
                         }
                     }
-                    _ => {}
                 }
             }
         }

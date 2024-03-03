@@ -8,14 +8,12 @@ enum Color {
 
 impl Color {
     fn same_as(&self, rhs: &Self, is_color_blind: bool) -> bool {
-        if self == rhs && self != &Color::K {
-            true
-        } else {
-            match (is_color_blind, self, rhs) {
-                (true, Color::R, Color::G) => true,
-                (true, Color::G, Color::R) => true,
-                _ => false,
-            }
+        match (is_color_blind, self, rhs) {
+            (_, Color::K, Color::K) => false,
+            (_, a, b) if a == b => true,
+            (true, Color::R, Color::G) => true,
+            (true, Color::G, Color::R) => true,
+            _ => false,
         }
     }
 }

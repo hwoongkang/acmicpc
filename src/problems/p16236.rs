@@ -120,7 +120,7 @@ impl FishTank {
             if dist > found_dist {
                 break;
             }
-            for (nr, nc) in self.next_pos(pos, &shark, &visited) {
+            for (nr, nc) in self.next_pos(pos, shark, &visited) {
                 match self.tiles[nr][nc] {
                     Tile::Fish(size) => {
                         if shark.can_eat(size) {
