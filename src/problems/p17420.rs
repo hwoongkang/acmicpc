@@ -1,110 +1,19 @@
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 struct Gifticon {
     use_on: usize,
     valid_until: usize,
 }
+
+fn days_helper(lhs: usize, rhs: usize) -> usize {
+    if lhs <= rhs {
+        0
+    } else {
+        let diff = lhs - rhs;
+        let quo = (diff - 1) / 30;
+        quo + 1
+    }
+}
 pub fn _solve(input: String) -> String {
-    fn days_helper(lhs: usize, rhs: usize) -> usize {
-        if lhs <= rhs {
-            0
-        } else {
-            let diff = lhs - rhs;
-            let quo = (diff - 1) / 30;
-            quo + 1
-        }
-    }
-
-    fn merge_helper(lhs: &mut Gifticon, rhs: &mut Gifticon) -> (bool, usize) {
-        match lhs.use_on.cmp(&rhs.use_on) {
-            std::cmp::Ordering::Less => {
-                let count = days_helper(lhs.valid_until, rhs.valid_until);
-                rhs.valid_until += 30 * count;
-                (true, count)
-            }
-            std::cmp::Ordering::Greater => {
-                let count = days_helper(rhs.valid_until, lhs.valid_until);
-                lhs.valid_until += 30 * count;
-                (false, count)
-            }
-            std::cmp::Ordering::Equal => (lhs.valid_until <= rhs.valid_until, 0),
-        }
-    }
-    fn merge(
-        arr: &mut Vec<Gifticon>,
-        l: usize,
-        m: usize,
-        r: usize,
-        count: &mut usize,
-        prev_max: &mut usize,
-    ) {
-        let n1 = m - l + 1;
-        let n2 = r - m;
-
-        let mut left = arr[l..=m].to_vec();
-
-        let mut right = arr[m + 1..=r].to_vec();
-
-        let mut i = 0;
-        let mut j = 0;
-        let mut k = l;
-
-        while i < n1 && j < n2 {
-            // 쓰기로 한 날짜 순으로 정렬하는데,
-            // 앞으로 오는 기프티콘의 유효기간이 길면
-            // 뒤로 오는 기프티콘의 유효기간을 그것보다 길게 연장해줌
-            let lhs = &mut left[i];
-            let rhs = &mut right[j];
-            let (left_first, c) = merge_helper(lhs, rhs);
-            *count += c;
-            let (_, c) = merge_helper(
-                &mut Gifticon {
-                    use_on: 0,
-                    valid_until: prev_max,
-                },
-                rhs,
-            );
-            if left_first {
-                arr[k] = *lhs;
-                i += 1;
-            } else {
-                arr[k] = *rhs;
-                j += 1;
-            }
-            k += 1;
-        }
-        while i < n1 {
-            let mut last = arr[k - 1];
-            let (_, c) = merge_helper(&mut last, &mut left[i]);
-
-            *count += c;
-            arr[k] = left[i];
-            k += 1;
-            i += 1;
-        }
-        while j < n2 {
-            let mut last = arr[k - 1];
-            let (_, c) = merge_helper(&mut last, &mut right[j]);
-
-            *count += c;
-            arr[k] = right[j];
-            k += 1;
-            j += 1;
-        }
-    }
-
-    fn merge_sort(arr: &mut Vec<Gifticon>, l: usize, r: usize, count: &mut usize) {
-        let mut prev_max = 0;
-        if l < r {
-            let m = l + (r - l) / 2;
-
-            // Sort first and second halves
-            merge_sort(arr, l, m, count);
-            merge_sort(arr, m + 1, r, count);
-
-            merge(arr, l, m, r, count);
-        }
-    }
-
     let mut lines = input.lines();
     let valid_untils = lines.nth(1).unwrap().split_ascii_whitespace();
     let use_ons = lines.next().unwrap().split_ascii_whitespace();
@@ -123,13 +32,61 @@ pub fn _solve(input: String) -> String {
         })
         .collect();
 
-    let r = gifticons.len() - 1;
+    gifticons.sort();
 
-    println!("{:?}", gifticons);
+    let mut prev_max = Gifticon {
+        use_on: 0,
+        valid_until: 0,
+    };
 
-    merge_sort(&mut gifticons, 0, r, &mut count);
+    let l = gifticons.len();
 
-    println!("{:?}", gifticons);
+    let mut i = 0;
+    while i < l {
+        let a = gifticons[i];
+        // 뭔가 잘못됐을 때
+        if a.valid_until < prev_max.valid_until {
+            // 그럼 지금부터 "같은 날짜에 사용하기로 한 것들"을 한 번 처리해주어야 함
+            let mut j = i;
+            let mut local_max = 0;
+            while j < l {
+                let mut b = gifticons[j];
+                if a.use_on != b.use_on {
+                    break;
+                }
+                let c = days_helper(prev_max.valid_until, b.valid_until);
+                b.valid_until += c * 30;
+                count += c;
+                local_max = local_max.max(b.valid_until);
+
+                j += 1;
+            }
+            prev_max = Gifticon {
+                use_on: a.use_on,
+                valid_until: local_max,
+            };
+            i = j;
+        }
+        // 쓸 수 있었을 때
+        else {
+            // 같은 날짜에 쓰기로 한 것들을 쭉 건너뛰면 됨
+            let mut j = i;
+            let mut local_max = 0;
+            while j < l {
+                let b = gifticons[j];
+                if a.use_on != b.use_on {
+                    break;
+                }
+                local_max = local_max.max(b.valid_until);
+                j += 1;
+            }
+            prev_max = Gifticon {
+                use_on: a.use_on,
+                valid_until: local_max,
+            };
+            i = j;
+        }
+    }
 
     count.to_string()
 }
