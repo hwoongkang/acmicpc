@@ -97,11 +97,11 @@ impl Figure {
 }
 
 pub fn _solve(input: String) -> String {
-    let figure = Figure::from(&mut input.lines().skip(1));
+    let mut figure = Figure::from(&mut input.lines().skip(1));
 
     let rgb = figure.clone().sections(false);
 
-    let blind = figure.clone().sections(true);
+    let blind = figure.sections(true);
 
     format!("{} {}", rgb, blind)
 }
